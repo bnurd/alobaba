@@ -16,6 +16,9 @@
         "hono": "^4.7.10",
       },
       "devDependencies": {
+        "@akptest/eslint-config": "workspace:*",
+        "@akptest/prettier-config": "workspace:*",
+        "@akptest/typescript-config": "workspace:*",
         "@types/bun": "latest",
       },
     },
