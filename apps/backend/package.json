@@ -5,13 +5,17 @@
   "type": "module",
   "scripts": {
     "build": "bun run build",
-    "dev": "bun run --hot src/index.ts",
+    "dev": "bun run --hot src/index.ts --port 3200",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "hono": "^4.7.10"
   },
   "devDependencies": {
+    "@akptest/typescript-config": "workspace:*",
+    "@akptest/eslint-config": "workspace:*",
+    "@akptest/prettier-config": "workspace:*",
     "@types/bun": "latest"
-  }
+  },
+  "prettier": "@akptest/prettier-config"
 }

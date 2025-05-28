@@ -1,9 +1,16 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
-const app = new Hono()
+import products from "~/modules/products";
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const app = new Hono();
 
-export default app
+app.get("/", c => {
+  return c.text("Hello Hono!");
+});
+
+app.route("/products", products);
+
+export default {
+  port: 3200,
+  fetch: app.fetch,
+};
