@@ -1,0 +1,17 @@
+{
+  "name": "@akptest/backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun run build",
+    "dev": "bun run --hot src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.7.10"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

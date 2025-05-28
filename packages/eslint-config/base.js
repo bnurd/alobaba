@@ -5,11 +5,13 @@ import importPlugin from "eslint-plugin-import";
 import turboPlugin from "eslint-plugin-turbo";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
+import eslintPluginPrtettier from "eslint-plugin-prettier/recommended";
 
 export default tseslint.config(
   // Ignore files not tracked by VCS and any config files
   includeIgnoreFile(path.join(import.meta.dirname, "../../.gitignore")),
   eslintConfigPrettier,
+  eslintPluginPrtettier,
   { ignores: ["**/*.config.*", "build", "node_modules", "public", "dist"] },
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
