@@ -9,7 +9,7 @@ import {
 
 import "./app.css";
 
-import type { Route } from "./+types/root";
+import type { Route } from "+/app/+types/root";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -43,7 +43,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  // const _isDev = "asdas";
   return <Outlet />;
 }
 
