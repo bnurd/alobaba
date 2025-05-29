@@ -34,7 +34,7 @@ const config = {
     "^[../]",
     "^[./]",
   ],
-  tailwindFunctions: ["cx", "cn"],
+  tailwindFunctions: ["cx", "cn", "tv"],
 };
 
 export default config;

@@ -11,6 +11,8 @@ import "./app.css";
 
 import type { Route } from "+/app/+types/root";
 
+import { TooltipProvider } from "~/shared/ui/tooltip";
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -43,7 +45,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <TooltipProvider>
+      <Outlet />
+    </TooltipProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
