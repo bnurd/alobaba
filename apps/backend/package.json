@@ -9,7 +9,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^4.7.10"
+    "@hono/trpc-server": "^0.3.4",
+    "@trpc/server": "^11.1.4",
+    "hono": "^4.7.10",
+    "superjson": "^2.2.2",
+    "zod": "^3.25.34"
   },
   "devDependencies": {
     "@akptest/typescript-config": "workspace:*",
