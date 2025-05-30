@@ -19,7 +19,7 @@ export function Tooltip(props: TooltipProps) {
       <BaseTooltip.Portal>
         <BaseTooltip.Content
           sideOffset={sideOffset}
-          className={cx("rounded-lg bg-white p-5 shadow", className)}
+          className={cx("z-[9999] rounded-lg bg-white p-5 shadow", className)}
         >
           <BaseTooltip.Arrow
             className="-my-px border-none fill-white drop-shadow-[0_1px_1px_#21202029]"

@@ -38,7 +38,7 @@ export const Button = ({
             ),
           })
         : null}
-      <span className="shrink-0">{children}</span>
+      <span className="inline-block shrink-0">{children}</span>
     </button>
   );
 };

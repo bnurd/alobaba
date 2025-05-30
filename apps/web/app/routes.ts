@@ -1,10 +1,14 @@
 import type { RouteConfig } from "@react-router/dev/routes";
-import { index, layout } from "@react-router/dev/routes";
+import { index, layout, route } from "@react-router/dev/routes";
 
-const moduuleResolve = (module: string, page: string) => {
+const moduleResolve = (module: string, page: string) => {
   return `./modules/${module}/pages/${page}-page.tsx`;
 };
 
 export default [
-  layout("./layouts/layout.tsx", [index(moduuleResolve("products", "product-list"))]),
+  layout("./layouts/layout.tsx", [
+    // products routes
+    index(moduleResolve("products", "product-list")),
+    route("products/:id", moduleResolve("products", "product-detail")),
+  ]),
 ] satisfies RouteConfig;
