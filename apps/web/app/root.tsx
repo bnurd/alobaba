@@ -11,6 +11,7 @@ import "./app.css";
 
 import type { Route } from "+/app/+types/root";
 
+import ReactQueryProvider from "~/shared/providers/react-query-provider";
 import { TooltipProvider } from "~/shared/ui/tooltip";
 
 export const links: Route.LinksFunction = () => [
@@ -46,9 +47,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <TooltipProvider>
-      <Outlet />
-    </TooltipProvider>
+    <ReactQueryProvider>
+      <TooltipProvider>
+        <Outlet />
+      </TooltipProvider>
+    </ReactQueryProvider>
   );
 }
 

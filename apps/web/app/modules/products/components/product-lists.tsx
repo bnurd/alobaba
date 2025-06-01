@@ -1,10 +1,15 @@
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router";
 
+import { useGetAllProducts } from "~/modules/products/queries/get-all-products";
 import { useLayoutHeader } from "~/shared/providers/layout-header-provider";
 import { Button } from "~/shared/ui/button";
 
 export function ProductLists() {
+  const products = useGetAllProducts();
+
+  console.log(products.data);
+
   const { setShowFilter } = useLayoutHeader();
 
   return (
