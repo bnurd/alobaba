@@ -16,3 +16,20 @@ export const getAllProducts = () => {
     },
   });
 };
+
+export const getAllProductsByName = (name: string) => {
+  return prisma.product.findMany({
+    where: {
+      name: {
+        contains: name,
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      price: true,
+      slug: true,
+      imageUrl: true,
+    },
+  });
+};
