@@ -6,7 +6,12 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck"
+    "typecheck": "turbo run typecheck",
+    "db:migrate": "turbo run db:migrate",
+    "db:generate": "turbo run db:generate",
+    "db:deploy": "turbo run db:deploy",
+    "db:reset": "turbo run db:reset",
+    "db:seed": "turbo run db:seed"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
