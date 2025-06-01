@@ -4,11 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun run build",
+    "build": "tsc && tsc-alias",
+    "start": "bun dist/index.js --port 3200",
     "dev": "bun run --hot src/index.ts --port 3200",
     "typecheck": "tsc --noEmit"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.js"
+    }
+  },
   "dependencies": {
+    "@akptest/database": "workspace:*",
     "@hono/trpc-server": "^0.3.4",
     "@trpc/server": "^11.1.4",
     "hono": "^4.7.10",
@@ -16,10 +24,11 @@
     "zod": "^3.25.34"
   },
   "devDependencies": {
-    "@akptest/typescript-config": "workspace:*",
     "@akptest/eslint-config": "workspace:*",
     "@akptest/prettier-config": "workspace:*",
-    "@types/bun": "latest"
+    "@akptest/typescript-config": "workspace:*",
+    "@types/bun": "latest",
+    "tsc-alias": "^1.8.16"
   },
   "prettier": "@akptest/prettier-config"
 }
