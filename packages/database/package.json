@@ -1,0 +1,22 @@
+{
+  "name": "@akptest/database",
+  "version": "0.0.1",
+  "scripts": {
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev --skip-generate",
+    "db:deploy": "npx prisma migrate deploy",
+    "db:reset": "npx prisma migrate reset",
+    "db:seed": "bun run seed/index.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "nanoid": "^5.1.5",
+    "prisma": "^6.8.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2"
+  }
+}
