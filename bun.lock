@@ -49,7 +49,6 @@
         "tailwind-variants": "^1.0.0",
       },
       "devDependencies": {
-        "@akptest/backend": "workspace:*",
         "@akptest/eslint-config": "workspace:*",
         "@akptest/prettier-config": "workspace:*",
         "@akptest/typescript-config": "workspace:*",

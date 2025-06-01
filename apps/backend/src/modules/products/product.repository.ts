@@ -1,13 +1,18 @@
 import { prisma } from "@akptest/database";
 
-import type { GetAllProductsSchema } from "~/modules/products/product.schema";
-
-export const getAllProducts = (): Promise<GetAllProductsSchema[]> => {
+export const getAllProducts = () => {
   return prisma.product.findMany({
     select: {
       id: true,
       name: true,
       description: true,
+      price: true,
+      imageUrl: true,
+      minumumOrderQuantity: true,
+      slug: true,
+      createdAt: true,
+      updatedAt: true,
+      stockQuantity: true,
     },
   });
 };

@@ -30,7 +30,6 @@
     "@akptest/prettier-config": "workspace:*",
     "@akptest/typescript-config": "workspace:*",
     "@akptest/eslint-config": "workspace:*",
-    "@akptest/backend": "workspace:*",
     "@react-router/dev": "^7.5.3",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",

@@ -1,18 +1,18 @@
 {
   "extends": "@akptest/typescript-config/vite",
-  "include": [
-    "**/*",
-    "**/.server/**/*",
-    "**/.client/**/*",
-    ".react-router/types/**/*"
-  ],
+  "include": ["**/*", "**/.server/**/*", "**/.client/**/*", ".react-router/types/**/*"],
   "compilerOptions": {
     "rootDirs": [".", "./.react-router/types"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "+/*": [".react-router/types/*"]
+      "+/*": [".react-router/types/*"],
+      "backend/*": ["../backend/src/*"]
     },
-    "composite": false
-  }
+  },
+  "references": [
+    {
+      "path": "../backend"
+    }
+  ]
 }

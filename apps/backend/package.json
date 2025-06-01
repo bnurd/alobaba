@@ -9,12 +9,6 @@
     "dev": "bun run --hot src/index.ts --port 3200",
     "typecheck": "tsc --noEmit"
   },
-  "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/types/index.js"
-    }
-  },
   "dependencies": {
     "@akptest/database": "workspace:*",
     "@hono/trpc-server": "^0.3.4",

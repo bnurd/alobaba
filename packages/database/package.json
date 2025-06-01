@@ -8,9 +8,8 @@
     "db:reset": "npx prisma migrate reset",
     "db:seed": "bun run seed/index.ts"
   },
-  "exports": {
-    ".": "./src/index.ts"
-  },
+  "private": true,
+  "main": "src/index.ts",
   "devDependencies": {
     "@faker-js/faker": "^9.8.0",
     "nanoid": "^5.1.5",
