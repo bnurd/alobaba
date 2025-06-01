@@ -1,11 +1,11 @@
 import {
   GlobeAltIcon,
-  MagnifyingGlassIcon,
   ShoppingCartIcon,
   UserCircleIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 
+import SearchHeader from "~/shared/components/search-header";
 import { Button } from "~/shared/ui/button";
 import { Tooltip } from "~/shared/ui/tooltip";
 
@@ -14,18 +14,7 @@ export default function LayoutHeader() {
     <header className="sticky top-0 z-[99] border-b border-b-gray-300 bg-white">
       <div className="max-w-8xl bg-red-5 mx-auto flex w-full items-center px-2 md:px-10">
         <h1 className="text-primary-500 font-semibold md:text-2xl">Alobaba.com</h1>
-        <div className="w-full px-4 py-3 md:px-8 md:py-4 lg:w-1/2">
-          <div className="focus-within:border-primary-500 focus-within:ring-primary-500 flex items-center rounded-full border border-gray-100 bg-gray-100 px-1.5 py-1 text-base focus-within:ring md:border-gray-800 md:bg-transparent">
-            <MagnifyingGlassIcon className="h-3 w-3 text-gray-600 md:hidden" />
-            <input
-              className="w-full cursor-pointer px-2 text-xs focus:outline-none md:cursor-text md:px-6 md:text-base"
-              placeholder="Search anything products..."
-            />
-            <Button className="hidden shrink-0 md:flex" size="sm" icon={<MagnifyingGlassIcon />}>
-              Search
-            </Button>
-          </div>
-        </div>
+        <SearchHeader />
         {/** Show on mobile */}
         <div className="flex grow-0 items-center gap-4 sm:hidden">
           <button>

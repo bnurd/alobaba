@@ -1,6 +1,7 @@
-import type { AppRouter } from "@akptest/backend";
+import type { AppRouter } from "backend/types";
 import { useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createTRPCClient, httpBatchStreamLink } from "@trpc/client";
 import SuperJSON from "superjson";
 
@@ -24,6 +25,7 @@ export default function ReactQueryProvider({ children }: { children: React.React
     <QueryClientProvider client={queryClient}>
       <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
         {children}
+        <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" position="bottom" />
       </TRPCProvider>
     </QueryClientProvider>
   );

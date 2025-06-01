@@ -2,7 +2,7 @@ import type { RouteConfig } from "@react-router/dev/routes";
 import { index, layout, route } from "@react-router/dev/routes";
 
 const moduleResolve = (module: string, page: string) => {
-  return `./modules/${module}/pages/${page}-page.tsx`;
+  return `./modules/${module}/pages/${page}.page.tsx`;
 };
 
 export default [
