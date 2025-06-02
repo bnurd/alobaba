@@ -32,6 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     ...trpc.auth.profile.queryOptions(),
     retry: 1,
     gcTime: Infinity,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
