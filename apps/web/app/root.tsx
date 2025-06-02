@@ -10,6 +10,7 @@ import {
 import "./app.css";
 
 import type { Route } from "+/app/+types/root";
+import { Toaster } from "sonner";
 
 import ReactQueryProvider from "~/shared/providers/react-query-provider";
 import { TooltipProvider } from "~/shared/ui/tooltip";
@@ -50,6 +51,7 @@ export default function App() {
     <ReactQueryProvider>
       <TooltipProvider>
         <Outlet />
+        <Toaster position="top-center" />
       </TooltipProvider>
     </ReactQueryProvider>
   );

@@ -11,4 +11,5 @@ export default [
     index(moduleResolve("products", "product-list")),
     route("products/:id", moduleResolve("products", "product-detail")),
   ]),
+  layout("./layouts/login-layout.tsx", [route("/sign-in", moduleResolve("auth", "login"))]),
 ] satisfies RouteConfig;

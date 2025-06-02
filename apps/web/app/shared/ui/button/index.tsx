@@ -1,4 +1,4 @@
-import { cloneElement } from "react";
+import { cloneElement, useMemo } from "react";
 import { tv } from "tailwind-variants";
 
 import type { ComponentIcon } from "~/shared/types/types";
@@ -9,6 +9,7 @@ export interface ButtonProps extends React.ComponentPropsWithRef<"button"> {
   variant?: "filled" | "outlined";
   size?: "sm" | "md" | "lg";
   color?: "primary" | "secondary";
+  isLoading?: boolean;
 }
 
 export const Button = ({
@@ -18,24 +19,49 @@ export const Button = ({
   variant,
   icon,
   color,
+  isLoading,
+  disabled,
   ...props
 }: ButtonProps) => {
+  const iconSize = useMemo(() => {
+    const sizeMap = {
+      sm: "h-5 w-5",
+      md: "h-6 w-6",
+      lg: "h-7 w-7",
+    };
+
+    return sizeMap[size ?? "md"];
+  }, [size]);
+
+  const isDisabled = isLoading ?? disabled;
+
   return (
     <button
-      className={buttonStyles({ className, size, variant, disabled: props.disabled, color })}
+      className={buttonStyles({ className, size, variant, disabled: isDisabled, color })}
+      disabled={isDisabled}
       {...props}
     >
+      {isLoading ? (
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 24 24"
+          fill="none"
+          className={cx("mr-2 animate-spin", iconSize)}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 2V6M12 18V22M6 12H2M22 12H18M19.0784 19.0784L16.25 16.25M19.0784 4.99994L16.25 7.82837M4.92157 19.0784L7.75 16.25M4.92157 4.99994L7.75 7.82837"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ) : null}
       {icon
         ? cloneElement(icon, {
-            className: cx(
-              "mr-2 shrink-0",
-              {
-                "h-5 w-5": size === "sm",
-                "h-6 w-6": size === "md",
-                "h-7 w-7": size === "lg",
-              },
-              icon.props.className
-            ),
+            className: cx("mr-2 shrink-0", iconSize, icon.props.className),
           })
         : null}
       <span className="inline-block shrink-0">{children}</span>
