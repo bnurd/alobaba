@@ -17,7 +17,7 @@
       "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true,
-      "env": ["DEV"]
+      "env": ["DEV", "JWT_SECRET_KEY"]
     },
     "db:generate": {
       "cache": false
