@@ -1,14 +1,17 @@
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { useUpdateCart } from "~/modules/cart/mutations/use-update-cart";
 import { useGetAllProducts } from "~/modules/products/queries/use-get-all-products";
 import ArrayForEach from "~/shared/components/array-foreach";
+import { useAuth } from "~/shared/providers/auth-provider";
 import { useLayoutHeader } from "~/shared/providers/layout-header-provider";
 import { Button } from "~/shared/ui/button";
 import { formatIDR } from "~/shared/utils/utils";
 
 export function ProductLists() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const products = useGetAllProducts();
 
   const { setShowFilter } = useLayoutHeader();
@@ -66,6 +69,13 @@ export function ProductLists() {
                 updateCartMutation.variables.productId === product.id
               }
               onClick={() => {
+                if (!isAuthenticated) {
+                  // redirect to sign-in page with follow_up query param to add to cart
+                  void navigate(
+                    `/sign-in?follow_up=${btoa(`action=add_cart&product_id=${product.id}`)}`
+                  );
+                  return;
+                }
                 updateCartMutation.mutate({
                   productId: product.id,
                   quantity: 1,

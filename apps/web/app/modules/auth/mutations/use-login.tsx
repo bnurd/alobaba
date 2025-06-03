@@ -29,14 +29,8 @@ export const useLogin = () => {
         queryKey: trpc.auth.profile.queryKey(),
       });
 
-      // use timeout to make sure the query is invalidated
-      const ts = setTimeout(() => {
-        // redirect to home page
-        const returnTo = searchParams.get("return") ?? "/";
-
-        void navigate(returnTo, { replace: true });
-        clearTimeout(ts);
-      }, 500);
+      const returnTo = searchParams.get("return") ?? "/";
+      void navigate(returnTo, { replace: true });
     },
   });
 };

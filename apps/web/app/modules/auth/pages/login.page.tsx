@@ -1,4 +1,5 @@
 import { useForm } from "@tanstack/react-form";
+import { useSearchParams } from "react-router";
 
 import { useLogin } from "~/modules/auth/mutations/use-login";
 import { signInSchema } from "~/modules/auth/validations";
@@ -8,6 +9,7 @@ import { Label } from "~/shared/ui/label";
 import { TextField } from "~/shared/ui/text-field";
 
 export default function LoginPage() {
+  const [searchParams] = useSearchParams();
   const loginMutation = useLogin();
 
   const form = useForm({
@@ -22,6 +24,7 @@ export default function LoginPage() {
       loginMutation.mutate({
         email: value.email,
         password: value.password,
+        followUp: searchParams.get("follow_up") ?? undefined,
       });
     },
   });

@@ -6,11 +6,11 @@ const moduleResolve = (module: string, page: string) => {
 };
 
 export default [
-  layout("./layouts/layout.tsx", [
+  layout("./layouts/base-layout.tsx", [
     // products routes
     index(moduleResolve("products", "product-list")),
-    route("products/:id", moduleResolve("products", "product-detail")),
-    route("cart", moduleResolve("cart", "cart")),
+    route("products/:slug", moduleResolve("products", "product-detail")),
+    layout("./layouts/authorize-layout.tsx", [route("cart", moduleResolve("cart", "cart"))]),
   ]),
-  layout("./layouts/login-layout.tsx", [route("/sign-in", moduleResolve("auth", "login"))]),
+  layout("./layouts/unauthorize-layout.tsx", [route("/sign-in", moduleResolve("auth", "login"))]),
 ] satisfies RouteConfig;
