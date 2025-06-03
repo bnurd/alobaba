@@ -12,5 +12,8 @@ export default [
     route("products/:slug", moduleResolve("products", "product-detail")),
     layout("./layouts/authorize-layout.tsx", [route("cart", moduleResolve("cart", "cart"))]),
   ]),
-  layout("./layouts/unauthorize-layout.tsx", [route("/sign-in", moduleResolve("auth", "login"))]),
+  layout("./layouts/unauthorize-layout.tsx", [
+    route("/sign-in", moduleResolve("auth", "login")),
+    route("/sign-up", moduleResolve("auth", "register")),
+  ]),
 ] satisfies RouteConfig;

@@ -27,13 +27,11 @@ export default function LayoutHeader() {
         <SearchHeader />
         {/** Show on mobile */}
         <div className="flex grow-0 items-center gap-4 sm:hidden">
-          <button>
+          <Link to={`/cart`}>
             <ShoppingCartIcon className="h-5 w-5" />
-          </button>
+          </Link>
           <Link to={`/sign-in`} className="flex items-center">
-            <button>
-              <UserCircleIcon className="h-5 w-5" />
-            </button>
+            <UserCircleIcon className="h-5 w-5" />
           </Link>
         </div>
         {/** Show on tablet and desktop */}
@@ -75,9 +73,11 @@ export default function LayoutHeader() {
             )}
           </Tooltip>
           {!isAuthenticated && (
-            <Button variant="filled" size="sm" className="hidden lg:block">
-              Create Acocunt
-            </Button>
+            <Link to="/sign-up">
+              <Button variant="filled" size="sm" className="hidden lg:block">
+                Create Acocunt
+              </Button>
+            </Link>
           )}
         </div>
       </div>

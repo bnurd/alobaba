@@ -5,14 +5,14 @@ import { useAuth } from "~/shared/providers/auth-provider";
 
 // the layout for check if the user is authenticated
 export default function AuthorizeLayout() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isLoading && !isAuthenticated) {
       void navigate("/sign-in");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   if (isAuthenticated) {
     return <Outlet />;

@@ -1,8 +1,11 @@
 import type { Route } from "+/app/modules/products/pages/+types/product-detail.page";
 import { useMemo, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router";
 
+import { useUpdateCart } from "~/modules/cart/mutations/use-update-cart";
 import { useGetDetailProduct } from "~/modules/products/queries/use-get-detail-product";
+import { useAuth } from "~/shared/providers/auth-provider";
 import { Button } from "~/shared/ui/button";
 import { TextField } from "~/shared/ui/text-field";
 import { cx, formatIDR } from "~/shared/utils/utils";
@@ -30,8 +33,8 @@ export default function ProductDetailPage({ params }: Route.ComponentProps) {
   }
 
   return (
-    <div className="mx-auto flex max-w-7xl items-start gap-10 p-2 md:p-10">
-      <div className="flex w-[75%] flex-col">
+    <div className="mx-auto flex max-w-7xl flex-col items-start gap-10 p-2 pb-10 md:flex-row md:p-10">
+      <div className="flex w-full flex-col md:w-[75%]">
         <p className="mb-8 text-lg font-semibold">{detail?.name}</p>
         <ImagesGallery images={images} />
         <div className="mt-5">
@@ -40,6 +43,7 @@ export default function ProductDetailPage({ params }: Route.ComponentProps) {
         </div>
       </div>
       <OrderBox
+        productId={detail?.id}
         stockQuantity={detail?.stockQuantity ?? 0}
         minimumOrder={detail?.minumumOrderQuantity}
         price={Number(detail?.price)}
@@ -49,14 +53,18 @@ export default function ProductDetailPage({ params }: Route.ComponentProps) {
 }
 
 const OrderBox = ({
+  productId,
   stockQuantity,
   minimumOrder,
   price,
 }: {
+  productId: string | undefined;
   stockQuantity: number;
   minimumOrder: number | null | undefined;
   price: number;
 }) => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
 
   // define the min order quantity based on stock quantity and minimum order
@@ -68,8 +76,10 @@ const OrderBox = ({
 
   const disableButton = quantity === 0 || stockQuantity === 0 || quantity > stockQuantity;
 
+  const updateCartMutation = useUpdateCart();
+
   return (
-    <div className="w-1/4 shrink-0 rounded-xl border border-gray-300 p-4">
+    <div className="w-full shrink-0 rounded-xl border border-gray-300 p-4 md:w-1/4">
       <p className="mb-5 text-lg font-semibold">Order Here</p>
       {!!minimumOrder && <p className="mb-4">Mininum order: {minimumOrder}</p>}
       <div className="mb-5 flex items-center gap-2">
@@ -108,7 +118,29 @@ const OrderBox = ({
       <div className="mb-5 flex justify-between">
         Subtotal: <b>{formatIDR(price * quantity)}</b>
       </div>
-      <Button className="mb-2 w-full" variant="outlined" size="sm" disabled={disableButton}>
+      <Button
+        className="mb-2 w-full"
+        variant="outlined"
+        size="sm"
+        disabled={disableButton}
+        onClick={() => {
+          if (!productId) return;
+
+          if (!isAuthenticated) {
+            // redirect to sign-in page with follow_up query param to add to cart
+            void navigate(
+              `/sign-in?follow_up=${btoa(`action=add_cart&product_id=${productId}&qty=${quantity}`)}`
+            );
+            return;
+          }
+
+          updateCartMutation.mutate({
+            productId,
+            quantity,
+            type: "add",
+          });
+        }}
+      >
         Add to Cart
       </Button>
       <Button className="w-full" variant="filled" size="sm" disabled={disableButton}>
@@ -122,8 +154,8 @@ export const ImagesGallery = ({ images }: { images: string[] }) => {
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
 
   return (
-    <div className="flex w-full gap-2">
-      <div className="flex h-[450px] w-24 shrink-0 flex-col gap-3 overflow-y-auto scroll-smooth p-1 pr-3">
+    <div className="flex w-full flex-col gap-2 md:flex-row">
+      <div className="flex h-24 shrink-0 gap-3 overflow-y-auto scroll-smooth p-1 pr-3 md:h-[450px] md:w-24 md:flex-col">
         {images.map((image, idx) => (
           <button
             key={idx}

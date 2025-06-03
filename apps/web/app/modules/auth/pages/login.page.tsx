@@ -1,5 +1,5 @@
 import { useForm } from "@tanstack/react-form";
-import { useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import { useLogin } from "~/modules/auth/mutations/use-login";
 import { signInSchema } from "~/modules/auth/validations";
@@ -35,7 +35,6 @@ export default function LoginPage() {
       <form
         onSubmit={async e => {
           e.preventDefault();
-          e.stopPropagation();
           await form.handleSubmit();
         }}
       >
@@ -85,6 +84,9 @@ export default function LoginPage() {
           Sign In
         </Button>
       </form>
+      <Link to="/sign-up" className="mt-4 flex justify-center text-center text-sm text-gray-500">
+        Don&apos;t have an account? <span className="ml-1 underline">Sign Up</span>
+      </Link>
     </div>
   );
 }

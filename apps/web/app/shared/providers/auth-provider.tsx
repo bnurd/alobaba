@@ -9,6 +9,7 @@ export interface AuthProviderContext {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   user: UserAuth | null;
   setUser: React.Dispatch<React.SetStateAction<UserAuth | null>>;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthProviderContext>({
@@ -20,11 +21,13 @@ const AuthContext = createContext<AuthProviderContext>({
   setUser: () => {
     // no-op default implementation
   },
+  isLoading: false,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const trpc = useTRPC();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<UserAuth | null>(null);
 
@@ -44,6 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name: profileQuery.data.name ?? "",
       });
     }
+    setIsLoading(false);
   }, [profileQuery.data]);
 
   if (profileQuery.isLoading) {
@@ -63,6 +67,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated,
         user,
         setUser,
+        isLoading,
       }}
     >
       {children}

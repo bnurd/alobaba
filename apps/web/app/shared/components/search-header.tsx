@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router";
 import { match, P } from "ts-pattern";
 
 import { useSearchProducts } from "~/modules/products/queries/user-search-products";
@@ -71,13 +72,14 @@ const SearchHeader = () => {
             .with({ data: P.array(P.any) }, ({ data }) => (
               <div className="flex flex-col gap-1">
                 {data.map(product => (
-                  <div
+                  <Link
+                    to={`products/${product.slug}`}
                     key={product.id}
-                    className="flex items-center gap-2 rounded-lg px-2 py-1 text-sm hover:bg-gray-100"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-sm hover:bg-gray-100"
                   >
                     <img src={product.imgaeUrl ?? "/placeholder.png"} className="h-10 w-10" />
                     <p>{product.name}</p>
-                  </div>
+                  </Link>
                 ))}
                 {!data.length && <div className="py-10">No results found</div>}
               </div>

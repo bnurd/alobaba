@@ -39,7 +39,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-white md:bg-gray-100">
       <div className="mx-auto flex max-w-5xl items-start gap-6 p-2 md:p-10">
         <div className="w-full">
-          <div className="mb-5 grid grid-cols-2 gap-5 rounded-lg bg-white p-4 text-sm">
+          <div className="mb-5 hidden grid-cols-2 gap-5 rounded-lg bg-white p-4 text-sm md:grid">
             <p className="">Produk</p>
             <div className="flex items-center justify-between [&_p]:px-4">
               <p>Harga Satuan</p>
@@ -81,7 +81,7 @@ export default function CartPage() {
                   data.map(cart => (
                     <div
                       key={cart.id}
-                      className="mb-5 grid grid-cols-2 items-center gap-5 rounded-lg bg-white p-4 text-sm"
+                      className="mb-5 grid-cols-2 items-center gap-5 rounded-lg bg-white p-4 text-sm md:grid"
                     >
                       <div className="flex gap-3">
                         <Checkbox
@@ -99,40 +99,29 @@ export default function CartPage() {
                           className="h-24 w-24"
                         />
                         <div className="flex w-full flex-col gap-2">
-                          <p className="text-sm">{cart.product.name}</p>
+                          <p className="line-clamp-2 text-sm md:line-clamp-none">
+                            {cart.product.name}
+                          </p>
+                          <div className="flex flex-col gap-2 md:hidden">
+                            <div className="flex justify-between">
+                              <p>{formatIDR(Number(cart.product.price))}</p>
+                              <QuantityButton
+                                productId={cart.product.id}
+                                currentQuantity={cart.quantity}
+                              />
+                            </div>
+                            <p className="font-semibold">
+                              Total: {formatIDR(Number(cart.product.price) * cart.quantity)}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between text-xs [&_p]:px-4">
+                      <div className="hidden items-center justify-between text-xs md:flex [&_p]:px-4">
                         <p>{formatIDR(Number(cart.product.price))}</p>
-                        <div className="flex items-center gap-1">
-                          <button
-                            className="cursor-pointer"
-                            onClick={() => {
-                              // subtract quantity
-                              updateCartMutation.mutate({
-                                productId: cart.product.id,
-                                quantity: 1,
-                                type: "subtract",
-                              });
-                            }}
-                          >
-                            <MinusIcon className="h-4 w-3" />
-                          </button>
-                          <p>{cart.quantity}</p>
-                          <button
-                            className="cursor-pointer"
-                            onClick={() => {
-                              // add quantity
-                              updateCartMutation.mutate({
-                                productId: cart.product.id,
-                                quantity: 1,
-                                type: "add",
-                              });
-                            }}
-                          >
-                            <PlusIcon className="h-4 w-3" />
-                          </button>
-                        </div>
+                        <QuantityButton
+                          productId={cart.product.id}
+                          currentQuantity={cart.quantity}
+                        />
                         <p>{formatIDR(Number(cart.product.price) * cart.quantity)}</p>
                         <button
                           className="cursor-pointer px-4 text-red-500 underline"
@@ -153,8 +142,8 @@ export default function CartPage() {
               </>
             ))
             .otherwise(() => null)}
-          <div className="ml-auto flex items-center justify-end rounded-lg bg-white p-4">
-            <div className="w-1/3">
+          <div className="ml-auto flex items-center justify-between rounded-lg bg-white p-4 md:justify-end">
+            <div className="md:w-1/3">
               <p className="mb-1 text-sm">Produk di pilih: {calculdateSelectedItemCount}</p>
               <p>
                 Total Harga:<b> {formatIDR(calculateSelectedTotalPrice)}</b>
@@ -167,3 +156,45 @@ export default function CartPage() {
     </div>
   );
 }
+
+const QuantityButton = ({
+  productId,
+  currentQuantity,
+}: {
+  productId: string;
+  currentQuantity: number;
+}) => {
+  const updateCartMutation = useUpdateCart();
+
+  return (
+    <div className="flex items-center gap-3 md:gap-1">
+      <button
+        className="cursor-pointer"
+        onClick={() => {
+          // subtract quantity
+          updateCartMutation.mutate({
+            productId,
+            quantity: 1,
+            type: "subtract",
+          });
+        }}
+      >
+        <MinusIcon className="h-4 w-4" />
+      </button>
+      <p>{currentQuantity}</p>
+      <button
+        className="cursor-pointer"
+        onClick={() => {
+          // add quantity
+          updateCartMutation.mutate({
+            productId,
+            quantity: 1,
+            type: "add",
+          });
+        }}
+      >
+        <PlusIcon className="h-4 w-4" />
+      </button>
+    </div>
+  );
+};
