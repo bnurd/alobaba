@@ -34,18 +34,14 @@ export const getAllProductsByName = (name: string) => {
   });
 };
 
-export const getProductById = async (productId: string) => {
+export const getProductBySlug = async (slug: string) => {
   const query = await prisma.product.findUnique({
-    select: {
-      id: true,
-      name: true,
-      price: true,
-      slug: true,
-      imageUrl: true,
-      stockQuantity: true,
-    },
     where: {
-      id: productId,
+      slug,
+    },
+    include: {
+      ProductImages: true,
+      ProductCategory: true,
     },
   });
 

@@ -1,7 +1,6 @@
 import { TRPCError } from "@trpc/server";
 
 import * as cartRepository from "~/modules/cart/cart.repository";
-import * as productRepository from "~/modules/products/product.repository";
 
 export const getCart = async (userId: string) => {
   const carts = await cartRepository.getCartByUserId(userId);
@@ -20,7 +19,7 @@ export const updateCart = async (
   quantity: number,
   type: "add" | "subtract"
 ) => {
-  const product = await productRepository.getProductById(productId);
+  const product = await cartRepository.getProductById(productId);
   if (!product) {
     throw new TRPCError({ code: "BAD_REQUEST", message: "Product not found" });
   }

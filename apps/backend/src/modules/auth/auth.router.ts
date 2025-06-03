@@ -6,7 +6,7 @@ import { protectedProcedure, publicProcedure, router } from "~/trpc";
 
 export const authRouter = router({
   login: publicProcedure.input(authSchema.loginSchema).mutation(({ input }) => {
-    return authService.login(input.email, input.password);
+    return authService.login(input.email, input.password, input.followUp);
   }),
   profile: protectedProcedure.query(({ ctx }) => {
     if (!ctx.user.sub) {

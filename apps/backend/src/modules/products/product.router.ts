@@ -4,6 +4,9 @@ import { publicProcedure, router } from "~/trpc";
 
 export const productRouter = router({
   getAll: publicProcedure.query(() => productService.getAllProducts()),
+  getDetail: publicProcedure
+    .input(productSchema.getDetailSchema)
+    .query(({ input }) => productService.getProductBySlug(input.slug)),
   search: publicProcedure
     .input(productSchema.searchSchema)
     .query(({ input }) => productService.searchProducts(input.q)),

@@ -7,6 +7,12 @@ export const getAllProducts = async () => {
   return products;
 };
 
+export const getProductBySlug = async (slug: string) => {
+  const product = await productRepository.getProductBySlug(slug);
+
+  return product;
+};
+
 export const searchProducts = async (q: string): Promise<productSchema.SearchResult> => {
   const products = await productRepository.getAllProductsByName(q);
 
