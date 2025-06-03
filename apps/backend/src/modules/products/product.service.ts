@@ -20,5 +20,6 @@ export const searchProducts = async (q: string): Promise<productSchema.SearchRes
     id: product.id,
     name: product.name,
     imgaeUrl: product.imageUrl,
+    slug: product.slug,
   }));
 };

@@ -1,4 +1,4 @@
-import { Decimal } from "@akptest/database/generated/prisma/runtime/library";
+import type { Decimal } from "@akptest/database/generated/prisma/runtime/library";
 import { z } from "zod/v4";
 
 export const searchSchema = z.object({
@@ -7,7 +7,7 @@ export const searchSchema = z.object({
 export type Search = z.infer<typeof searchSchema>;
 
 export const searchResultSchema = z.array(
-  z.object({ id: z.string(), name: z.string(), imgaeUrl: z.string().nullable() })
+  z.object({ id: z.string(), name: z.string(), imgaeUrl: z.string().nullable(), slug: z.string() })
 );
 export type SearchResult = z.infer<typeof searchResultSchema>;
 

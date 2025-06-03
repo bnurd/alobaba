@@ -2,6 +2,8 @@ import { prisma } from "@akptest/database";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcryptjs";
 
+import type { RegisterSchema } from "~/modules/auth/auth.schema";
+
 export const checkUser = async (email: string, password: string) => {
   const query = await prisma.user.findFirst({
     select: {
@@ -47,4 +49,29 @@ export const getUserById = async (userId: string) => {
   }
 
   return query;
+};
+
+export const createUser = async (input: RegisterSchema) => {
+  const isEmailExist = await prisma.user.findFirst({
+    where: {
+      email: input.email,
+    },
+  });
+
+  if (isEmailExist) {
+    throw new TRPCError({ code: "BAD_REQUEST", message: "Email already exist" });
+  }
+
+  const password = await bcrypt.hash(input.password, 10);
+
+  const user = await prisma.user.create({
+    data: {
+      email: input.email,
+      password,
+      name: input.name,
+      phone: input.phone,
+    },
+  });
+
+  return user;
 };

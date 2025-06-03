@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 
+import type { RegisterSchema } from "~/modules/auth/auth.schema";
 import * as authRepository from "~/modules/auth/auth.repository";
 import * as cartService from "~/modules/cart/cart.service";
 import { createToken } from "~/utils/jwt";
@@ -13,14 +14,16 @@ export const login = async (email: string, password: string, followUpAct: string
       // follow up action is a base64 encoded string
       const act = Buffer.from(followUpAct, "base64").toString();
       const url = new URLSearchParams(act);
-      console.log(url.get("action"));
+
       if (url.get("action") === "add_cart") {
         // add to cart
         const productId = url.get("product_id");
         if (!productId) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "Product id not found" });
         }
-        await cartService.updateCart(user.id, productId, 1, "add");
+        const qty = url.get("qty") ?? 1;
+        console.log(qty);
+        await cartService.updateCart(user.id, productId, Number(qty), "add");
       }
     } catch (error) {
       console.log(error);
@@ -44,4 +47,9 @@ export const login = async (email: string, password: string, followUpAct: string
 
 export const getProfile = async (userId: string) => {
   return authRepository.getUserById(userId);
+};
+
+export const register = async (input: RegisterSchema) => {
+  await authRepository.createUser(input);
+  return true;
 };
