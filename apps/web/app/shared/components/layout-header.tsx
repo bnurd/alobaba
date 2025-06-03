@@ -7,6 +7,7 @@ import {
 import { Link } from "react-router";
 
 import { useLogout } from "~/modules/auth/mutations/use-logout";
+import CartHeaderMenu from "~/modules/cart/components/cart-header-menu";
 import SearchHeader from "~/shared/components/search-header";
 import { useAuth } from "~/shared/providers/auth-provider";
 import { Button } from "~/shared/ui/button";
@@ -20,7 +21,9 @@ export default function LayoutHeader() {
   return (
     <header className="sticky top-0 z-[99] border-b border-b-gray-300 bg-white">
       <div className="max-w-8xl bg-red-5 mx-auto flex w-full items-center px-2 md:px-10">
-        <h1 className="text-primary-500 font-semibold md:text-2xl">Alobaba.com</h1>
+        <Link to="/">
+          <h1 className="text-primary-500 font-semibold md:text-2xl">Alobaba.com</h1>
+        </Link>
         <SearchHeader />
         {/** Show on mobile */}
         <div className="flex grow-0 items-center gap-4 sm:hidden">
@@ -39,23 +42,7 @@ export default function LayoutHeader() {
             <GlobeAltIcon className="mr-2 h-6 w-6" />
             Indonesia - IDR
           </button>
-          <Tooltip
-            trigger={
-              <button className="cursor-pointer text-sm">
-                <ShoppingCartIcon className="h-6 w-6" />
-              </button>
-            }
-            className="min-w-[300px]"
-          >
-            <p className="font-semibold">Shopping cart</p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-2">
-              <img src="/empty-cart.png" className="w-[100px] text-center" />
-              <p className="font-semibold">Your cart is empty</p>
-            </div>
-            <Button variant="outlined" color="secondary" size="sm" className="mt-4 w-full">
-              Go to cart
-            </Button>
-          </Tooltip>
+          <CartHeaderMenu />
           <Tooltip
             trigger={
               <button className="flex cursor-pointer items-center text-sm hover:underline">
@@ -87,9 +74,11 @@ export default function LayoutHeader() {
               </>
             )}
           </Tooltip>
-          <Button variant="filled" size="sm" className="hidden lg:block">
-            Create Acocunt
-          </Button>
+          {!isAuthenticated && (
+            <Button variant="filled" size="sm" className="hidden lg:block">
+              Create Acocunt
+            </Button>
+          )}
         </div>
       </div>
     </header>

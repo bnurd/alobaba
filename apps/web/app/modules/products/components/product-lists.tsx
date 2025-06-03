@@ -1,7 +1,8 @@
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router";
 
-import { useGetAllProducts } from "~/modules/products/queries/get-all-products";
+import { useUpdateCart } from "~/modules/cart/mutations/use-update-cart";
+import { useGetAllProducts } from "~/modules/products/queries/use-get-all-products";
 import ArrayForEach from "~/shared/components/array-foreach";
 import { useLayoutHeader } from "~/shared/providers/layout-header-provider";
 import { Button } from "~/shared/ui/button";
@@ -11,6 +12,7 @@ export function ProductLists() {
   const products = useGetAllProducts();
 
   const { setShowFilter } = useLayoutHeader();
+  const updateCartMutation = useUpdateCart();
 
   return (
     <div className="grow">
@@ -59,6 +61,17 @@ export function ProductLists() {
               color="secondary"
               variant="outlined"
               className="hidden w-full md:flex"
+              isLoading={
+                updateCartMutation.isPending &&
+                updateCartMutation.variables.productId === product.id
+              }
+              onClick={() => {
+                updateCartMutation.mutate({
+                  productId: product.id,
+                  quantity: 1,
+                  type: "add",
+                });
+              }}
             >
               Add to cart
             </Button>

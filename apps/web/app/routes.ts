@@ -10,6 +10,7 @@ export default [
     // products routes
     index(moduleResolve("products", "product-list")),
     route("products/:id", moduleResolve("products", "product-detail")),
+    route("cart", moduleResolve("cart", "cart")),
   ]),
   layout("./layouts/login-layout.tsx", [route("/sign-in", moduleResolve("auth", "login"))]),
 ] satisfies RouteConfig;

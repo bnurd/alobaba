@@ -12,6 +12,7 @@ import "./app.css";
 import type { Route } from "+/app/+types/root";
 import { Toaster } from "sonner";
 
+import { AuthProvider } from "~/shared/providers/auth-provider";
 import ReactQueryProvider from "~/shared/providers/react-query-provider";
 import { TooltipProvider } from "~/shared/ui/tooltip";
 
@@ -49,10 +50,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <ReactQueryProvider>
-      <TooltipProvider>
-        <Outlet />
-        <Toaster position="top-center" />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Outlet />
+          <Toaster position="top-center" />
+        </TooltipProvider>
+      </AuthProvider>
     </ReactQueryProvider>
   );
 }

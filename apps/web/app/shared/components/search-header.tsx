@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { match, P } from "ts-pattern";
 
-import { useSearchProducts } from "~/modules/products/queries/search-products";
+import { useSearchProducts } from "~/modules/products/queries/user-search-products";
 import useDebounce from "~/shared/hooks/use-debounce";
 import { Button } from "~/shared/ui/button";
 

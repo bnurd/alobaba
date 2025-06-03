@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { toast } from "sonner";
 
 import { TOKEN_KEY } from "~/shared/config";
@@ -9,6 +9,7 @@ import { useTRPC } from "~/shared/libs/trpc";
 export const useLogin = () => {
   const queryClient = useQueryClient();
   const trpc = useTRPC();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   return useMutation({
@@ -31,7 +32,9 @@ export const useLogin = () => {
       // use timeout to make sure the query is invalidated
       const ts = setTimeout(() => {
         // redirect to home page
-        void navigate("/", { replace: true });
+        const returnTo = searchParams.get("return") ?? "/";
+
+        void navigate(returnTo, { replace: true });
         clearTimeout(ts);
       }, 500);
     },
