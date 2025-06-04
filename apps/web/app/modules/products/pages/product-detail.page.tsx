@@ -11,7 +11,7 @@ import { TextField } from "~/shared/ui/text-field";
 import { cx, formatIDR } from "~/shared/utils/utils";
 
 export default function ProductDetailPage({ params }: Route.ComponentProps) {
-  const detailQuery = useGetDetailProduct(params.slug as string);
+  const detailQuery = useGetDetailProduct(params.slug);
 
   const detail = detailQuery.data;
 
@@ -123,6 +123,7 @@ const OrderBox = ({
         variant="outlined"
         size="sm"
         disabled={disableButton}
+        isLoading={updateCartMutation.isPending}
         onClick={() => {
           if (!productId) return;
 

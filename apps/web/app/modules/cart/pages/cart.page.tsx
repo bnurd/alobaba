@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router";
 import { match, P } from "ts-pattern";
 
 import { useUpdateCart } from "~/modules/cart/mutations/use-update-cart";
@@ -39,6 +40,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-white md:bg-gray-100">
       <div className="mx-auto flex max-w-5xl items-start gap-6 p-2 md:p-10">
         <div className="w-full">
+          <h2 className="mb-8 text-2xl font-semibold">Shopping Cart</h2>
           <div className="mb-5 hidden grid-cols-2 gap-5 rounded-lg bg-white p-4 text-sm md:grid">
             <p className="">Produk</p>
             <div className="flex items-center justify-between [&_p]:px-4">
@@ -99,9 +101,12 @@ export default function CartPage() {
                           className="h-24 w-24"
                         />
                         <div className="flex w-full flex-col gap-2">
-                          <p className="line-clamp-2 text-sm md:line-clamp-none">
+                          <Link
+                            to={`/products/${cart.product.slug}`}
+                            className="line-clamp-2 text-sm hover:underline md:line-clamp-none"
+                          >
                             {cart.product.name}
-                          </p>
+                          </Link>
                           <div className="flex flex-col gap-2 md:hidden">
                             <div className="flex justify-between">
                               <p>{formatIDR(Number(cart.product.price))}</p>
