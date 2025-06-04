@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
 import { match, P } from "ts-pattern";
 
 import { useUpdateCart } from "~/modules/cart/mutations/use-update-cart";
@@ -12,6 +13,7 @@ import { formatIDR } from "~/shared/utils/utils";
 
 export default function CartPage() {
   const [selectedCartIds, setSelectedCartsIds] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const carts = useGetAllCart();
   const updateCartMutation = useUpdateCart();
@@ -113,6 +115,8 @@ export default function CartPage() {
                               <QuantityButton
                                 productId={cart.product.id}
                                 currentQuantity={cart.quantity}
+                                mininumOrderQuantity={cart.product.minumumOrderQuantity}
+                                stockQuantity={cart.product.stockQuantity ?? 0}
                               />
                             </div>
                             <p className="font-semibold">
@@ -126,6 +130,8 @@ export default function CartPage() {
                         <QuantityButton
                           productId={cart.product.id}
                           currentQuantity={cart.quantity}
+                          mininumOrderQuantity={cart.product.minumumOrderQuantity}
+                          stockQuantity={cart.product.stockQuantity ?? 0}
                         />
                         <p>{formatIDR(Number(cart.product.price) * cart.quantity)}</p>
                         <button
@@ -154,7 +160,26 @@ export default function CartPage() {
                 Total Harga:<b> {formatIDR(calculateSelectedTotalPrice)}</b>
               </p>
             </div>
-            <Button>Checkout</Button>
+            <Button
+              disabled={selectedCartIds.length === 0}
+              onClick={() => {
+                const paymentSign = [] as string[];
+                selectedCartIds.forEach(cartId => {
+                  const cart = carts.data?.find(cart => cart.id === cartId);
+                  if (!cart) {
+                    return;
+                  }
+                  // create the payment sign (code) with format {productId}.{quantity}
+                  // so we can use it to create the payment code
+                  paymentSign.push(`${cart.product.id}.${cart.quantity}`);
+                });
+
+                const paymentCode = paymentSign.join(",");
+                void navigate(`/payment/${btoa(paymentCode)}`);
+              }}
+            >
+              Checkout
+            </Button>
           </div>
         </div>
       </div>
@@ -165,11 +190,21 @@ export default function CartPage() {
 const QuantityButton = ({
   productId,
   currentQuantity,
+  mininumOrderQuantity,
+  stockQuantity,
 }: {
   productId: string;
   currentQuantity: number;
+  mininumOrderQuantity: number | null;
+  stockQuantity: number;
 }) => {
   const updateCartMutation = useUpdateCart();
+
+  const minOrderQuantity = useMemo(() => {
+    if (!mininumOrderQuantity) return stockQuantity;
+    if (mininumOrderQuantity > stockQuantity) return stockQuantity;
+    return mininumOrderQuantity;
+  }, [mininumOrderQuantity, stockQuantity]);
 
   return (
     <div className="flex items-center gap-3 md:gap-1">
@@ -190,6 +225,10 @@ const QuantityButton = ({
       <button
         className="cursor-pointer"
         onClick={() => {
+          if (currentQuantity >= minOrderQuantity) {
+            toast.error("You can't add more than minimum order quantity");
+            return;
+          }
           // add quantity
           updateCartMutation.mutate({
             productId,

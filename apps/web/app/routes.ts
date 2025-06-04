@@ -10,7 +10,10 @@ export default [
     // products routes
     index(moduleResolve("products", "product-list")),
     route("products/:slug", moduleResolve("products", "product-detail")),
-    layout("./layouts/authorize-layout.tsx", [route("cart", moduleResolve("cart", "cart"))]),
+    layout("./layouts/authorize-layout.tsx", [
+      route("cart", moduleResolve("cart", "cart")),
+      route("payment/:code", moduleResolve("payment", "payment")),
+    ]),
   ]),
   layout("./layouts/unauthorize-layout.tsx", [
     route("/sign-in", moduleResolve("auth", "login")),

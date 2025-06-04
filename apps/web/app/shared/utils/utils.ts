@@ -5,7 +5,10 @@ export function cx(...classNames: classNames.ArgumentArray) {
   return twMerge(classnames(...classNames));
 }
 
-export function formatIDR(value: number) {
+export function formatIDR(value: number | string) {
+  if (typeof value === "string") {
+    value = Number(value);
+  }
   return value.toLocaleString("id-ID", {
     style: "currency",
     currency: "IDR",
