@@ -9,6 +9,7 @@ export default function AuthorizeLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(isLoading, isAuthenticated);
     if (!isLoading && !isAuthenticated) {
       void navigate("/sign-in");
     }

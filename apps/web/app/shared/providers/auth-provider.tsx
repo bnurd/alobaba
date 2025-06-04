@@ -47,8 +47,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         name: profileQuery.data.name ?? "",
       });
     }
-    setIsLoading(false);
   }, [profileQuery.data]);
+
+  useEffect(() => {
+    if (!profileQuery.isLoading) setIsLoading(false);
+  }, [profileQuery.isLoading]);
 
   if (profileQuery.isLoading) {
     return (

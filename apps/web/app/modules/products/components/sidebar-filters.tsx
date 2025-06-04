@@ -2,8 +2,6 @@ import { createPortal } from "react-dom";
 
 import { useLayoutHeader } from "~/shared/providers/layout-header-provider";
 import { Button } from "~/shared/ui/button";
-import { Checkbox } from "~/shared/ui/checkbox";
-import { RadioButton, RadioButtonGroup } from "~/shared/ui/radio-button";
 import { TextField } from "~/shared/ui/text-field";
 import { cx } from "~/shared/utils/utils";
 
@@ -21,14 +19,14 @@ export default function SidebarFilters() {
         )}
       >
         <p className="mb-5 text-lg font-semibold">Filters</p>
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <p className="mb-4 font-semibold">Review</p>
           <RadioButtonGroup name="review" value="5" className="flex flex-col gap-3">
             <RadioButton value="5" label="5.0" />
             <RadioButton value="4-5" label="4.0 - 5.0" />
             <RadioButton value="3" label="3" />
           </RadioButtonGroup>
-        </div>
+        </div> */}
         <div className="mb-5">
           <p className="mb-4 font-semibold">Price</p>
           <div className="flex flex-col gap-3">
@@ -36,7 +34,7 @@ export default function SidebarFilters() {
             <TextField size="sm" placeholder="Max" />
           </div>
         </div>
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <p className="mb-4 font-semibold">RAM</p>
           <div className="flex flex-col gap-3">
             <Checkbox label="4 GB" />
@@ -54,7 +52,7 @@ export default function SidebarFilters() {
             <Checkbox label="512 GB" />
             <Checkbox label="1 TB" />
           </div>
-        </div>
+        </div> */}
         <Button className="md:hidden" size="sm">
           Tampilkan
         </Button>
