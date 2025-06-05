@@ -51,15 +51,22 @@ export default function LayoutHeader() {
             className="min-w-[300px]"
           >
             {isAuthenticated && (
-              <Button
-                className="w-full"
-                size="sm"
-                variant="outlined"
-                onClick={() => logoutMutation.mutate()}
-                isLoading={logoutMutation.isPending}
-              >
-                Sign Out
-              </Button>
+              <div className="flex flex-col gap-4">
+                <Link to={`/order-histories`}>
+                  <Button size="sm" className="w-full">
+                    Order History
+                  </Button>
+                </Link>
+                <Button
+                  className="w-full"
+                  size="sm"
+                  variant="outlined"
+                  onClick={() => logoutMutation.mutate()}
+                  isLoading={logoutMutation.isPending}
+                >
+                  Sign Out
+                </Button>
+              </div>
             )}
             {!isAuthenticated && (
               <>

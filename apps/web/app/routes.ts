@@ -12,6 +12,7 @@ export default [
     route("products/:slug", moduleResolve("products", "product-detail")),
     layout("./layouts/authorize-layout.tsx", [
       route("cart", moduleResolve("cart", "cart")),
+      route("order-histories", moduleResolve("products", "order-history")),
       route("payment/:code", moduleResolve("payment", "payment")),
     ]),
   ]),
