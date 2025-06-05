@@ -151,7 +151,17 @@ const OrderBox = ({
       >
         Add to Cart
       </Button>
-      <Button className="w-full" variant="filled" size="sm" disabled={disableButton}>
+      <Button
+        className="w-full"
+        variant="filled"
+        size="sm"
+        disabled={disableButton}
+        onClick={() => {
+          const paymentSign = [`${productId}.${quantity}`] as string[];
+          const paymentCode = paymentSign.join(",");
+          void navigate(`/payment/${btoa(paymentCode)}`);
+        }}
+      >
         Buy Now
       </Button>
     </div>

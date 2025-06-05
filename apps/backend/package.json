@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "start": "bun dist/index.js --port 3200",
+    "start": "bun dist/src/index.js --port 3200",
     "dev": "bun run --hot src/index.ts --port 3200",
     "typecheck": "tsc --noEmit"
   },
