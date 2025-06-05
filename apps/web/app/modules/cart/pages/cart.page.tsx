@@ -40,6 +40,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-white md:bg-gray-100">
+      <title>Shopping Cart - Alobaba</title>
       <div className="mx-auto flex max-w-5xl items-start gap-6 p-2 md:p-10">
         <div className="w-full">
           <h2 className="mb-8 text-2xl font-semibold">Shopping Cart</h2>

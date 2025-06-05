@@ -47,6 +47,7 @@ export default function RegisterPage() {
 
   return (
     <div className="mx-auto mt-5 w-full px-4 md:mt-12 md:w-1/2 md:px-6 lg:w-1/3">
+      <title>Sign Up - Alobaba</title>
       <h2 className="mb-8 text-center text-2xl font-semibold">Sign Up</h2>
       <form
         onSubmit={async e => {
