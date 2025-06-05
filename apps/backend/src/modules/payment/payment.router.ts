@@ -16,6 +16,9 @@ export const paymentRouter = router({
     .mutation(async ({ input, ctx }) => {
       return paymentService.createPayment(ctx.user.sub, input.code);
     }),
+  getHistories: protectedProcedure.query(async ({ ctx }) => {
+    return paymentService.getOrderHistories(ctx.user.sub);
+  }),
 });
 
 export const paymentWebhook = async (ctx: Context) => {

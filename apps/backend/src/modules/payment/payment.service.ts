@@ -59,7 +59,7 @@ export const createPayment = async (userId: string, code: string) => {
     qty: productQty,
     price: productPrices,
     returnUrl: `${process.env.FRONTEND_URL}/payment/callback`,
-    cancelUrl: `${process.env.FRONTEND_URL}}/payment/cancel`,
+    cancelUrl: `${process.env.FRONTEND_URL}/payment/cancel`,
     notifyUrl: `${process.env.BASE_URL}/payment/callback`,
   };
 
@@ -141,6 +141,7 @@ export const createPayment = async (userId: string, code: string) => {
 
     return res.Data;
   } catch (error) {
+    console.log(error);
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
       message: "Error creating payment",
@@ -180,4 +181,8 @@ export const updatePaymentStatus = async (
       cause: error,
     });
   }
+};
+
+export const getOrderHistories = async (userId: string) => {
+  return await paymentRepository.getOrderHistories(userId);
 };
