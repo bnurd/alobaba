@@ -13,6 +13,12 @@ This project is a clone of the search result for "B2B Used Mobile Phones" on the
 - Postgresql [https://www.postgresql.org]
 - IPaymu (payment gateway) [https://ipaymu.com]
 
+## Demo
+- You can visit: [https://alobaba.bnurd.com](https://alobaba.bnurd.com/)
+- credential to sign in
+  - email: bagus@gmail.com
+  - pass: 123oke
+
 ## Features
 - [x] Auth (Sign In & Sign Up)
 - [x] Product Lists
