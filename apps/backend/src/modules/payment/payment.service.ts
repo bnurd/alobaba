@@ -3,10 +3,11 @@ import { PaymentStatus, prisma } from "@akptest/database";
 import { TRPCError } from "@trpc/server";
 
 import type { IPayPaymentResponse } from "~/modules/payment/payment.types";
+import * as authRepository from "~/modules/auth/auth.repository";
 import * as paymentRepository from "~/modules/payment/payment.repository";
 import { getFormattedDateTime } from "~/utils/utils";
 
-export const getPaymentProducts = async (code: string) => {
+export const getPaymentProducts = async (userId: string, code: string) => {
   // split the code by code. code: "productId.quantity,productId.quantity" (is base64 encoded)
   const codeDecoded = Buffer.from(code, "base64").toString();
   const products = codeDecoded.split(",");
@@ -20,8 +21,9 @@ export const getPaymentProducts = async (code: string) => {
   }
 
   const results = await paymentRepository.getPaymentProducts(productIds);
+  const user = await authRepository.getUserById(userId);
 
-  return results.map(result => {
+  const productResults = results.map(result => {
     const product = products.find(product => product.split(".")[0] === result.id)?.split(".");
     if (!product?.length) {
       throw new Error("Product not found");
@@ -34,9 +36,14 @@ export const getPaymentProducts = async (code: string) => {
       qty: Number(qty),
     };
   });
+
+  return {
+    products: productResults,
+    user: user,
+  };
 };
 
-export const createPayment = async (userId: string, code: string) => {
+export const createPayment = async (userId: string, code: string, address: string) => {
   const codeDecoded = Buffer.from(code, "base64").toString();
   const productMap = codeDecoded.split(",").map(product => {
     const [id, qty] = product.split(".");
@@ -105,6 +112,7 @@ export const createPayment = async (userId: string, code: string) => {
       data: {
         userId,
         payTotal: paymentTotal,
+        address,
       },
     });
 

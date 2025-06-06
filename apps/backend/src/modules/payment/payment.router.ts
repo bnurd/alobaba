@@ -8,13 +8,13 @@ import { protectedProcedure, router } from "~/trpc";
 export const paymentRouter = router({
   getPaymentProducts: protectedProcedure
     .input(paymentSchema.getPaymentProductsSchema)
-    .query(async ({ input }) => {
-      return paymentService.getPaymentProducts(input.code);
+    .query(async ({ ctx, input }) => {
+      return paymentService.getPaymentProducts(ctx.user.sub, input.code);
     }),
   createPayment: protectedProcedure
-    .input(paymentSchema.getPaymentProductsSchema)
+    .input(paymentSchema.createPaymentSchema)
     .mutation(async ({ input, ctx }) => {
-      return paymentService.createPayment(ctx.user.sub, input.code);
+      return paymentService.createPayment(ctx.user.sub, input.code, input.address);
     }),
   getHistories: protectedProcedure.query(async ({ ctx }) => {
     return paymentService.getOrderHistories(ctx.user.sub);

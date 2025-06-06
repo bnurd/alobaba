@@ -36,10 +36,15 @@ export default function ProductDetailPage({ params }: Route.ComponentProps) {
     <div className="mx-auto flex max-w-7xl flex-col items-start gap-10 p-2 pb-10 md:flex-row md:p-10">
       {/** SEO */}
       <title>{`${detail?.name} - Alobaba`}</title>
-      <meta property="og:title" content={detail?.name} />
       <meta name="description" content={detail?.description} />
+      <meta property="og:title" content={detail?.name} />
       <meta property="og:description" content={detail?.description} />
-      <meta property="og:image" content={images[0] ?? ""} />
+      <meta property="og:image" content={detail?.imageUrl ?? ""} />
+      <meta
+        property="og:url"
+        content={`${import.meta.env.VITE_API_URL}/products/${detail?.slug}`}
+      />
+      <meta property="og:type" content="product" />
 
       <div className="flex w-full flex-col md:w-[75%]">
         <p className="mb-8 text-lg font-semibold">{detail?.name}</p>

@@ -1,20 +1,26 @@
 import type { Route } from "+/app/modules/payment/pages/+types/payment.page";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { match, P } from "ts-pattern";
 
 import { useCreatePayment } from "~/modules/payment/mutations/use-create-payment";
 import { useGetPaymentProducts } from "~/modules/payment/queries/user-get-payment-products";
 import ArrayForEach from "~/shared/components/array-foreach";
 import { Button } from "~/shared/ui/button";
+import { Label } from "~/shared/ui/label";
 import { formatIDR } from "~/shared/utils/utils";
 
 export default function PaymentPage({ params }: Route.ComponentProps) {
+  const [address, setAddress] = useState("");
   const productQuery = useGetPaymentProducts(params.code);
 
   const calculateTotalPrice = useMemo(() => {
-    return productQuery.data?.reduce((acc, product) => {
+    return productQuery.data?.products.reduce((acc, product) => {
       return acc + Number(product.price) * product.qty;
     }, 0);
+  }, [productQuery.data]);
+
+  useEffect(() => {
+    setAddress(productQuery.data?.user.address ?? "");
   }, [productQuery.data]);
 
   const createMutation = useCreatePayment();
@@ -54,16 +60,16 @@ export default function PaymentPage({ params }: Route.ComponentProps) {
                 {data.error.message}
               </div>
             ))
-            .with({ data: P.array(P.any) }, ({ data }) => (
+            .with({ data: { products: P.array(P.any) } }, ({ data }) => (
               <>
-                {!data.length && (
+                {!data.products.length && (
                   <div className="flex w-full flex-col items-center justify-center gap-2 rounded-lg bg-white p-4 text-sm">
                     <img src="/empty-cart.png" className="w-[100px] text-center" />
                     <p className="font-semibold">Your cart is empty</p>
                   </div>
                 )}
-                {!!data.length &&
-                  data.map(product => {
+                {!!data.products.length &&
+                  data.products.map(product => {
                     return (
                       <div
                         key={product.id}
@@ -97,6 +103,14 @@ export default function PaymentPage({ params }: Route.ComponentProps) {
               </>
             ))
             .otherwise(() => null)}
+          <div className="mb-5 rounded-lg bg-white p-4">
+            <Label className="mb-1">Alamat Pengiriman</Label>
+            <textarea
+              className="focus-visible:ring-primary-500 focus-visible:border-primary-500 w-full rounded-xl border border-r-gray-100 p-3 text-sm focus-visible:ring-1 focus-visible:outline-none"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+            />
+          </div>
           <div className="ml-auto flex items-center justify-between rounded-lg bg-white p-4 md:justify-end">
             <p className="mr-5">
               Total Harga:<b> {formatIDR(calculateTotalPrice ?? 0)}</b>
@@ -108,6 +122,7 @@ export default function PaymentPage({ params }: Route.ComponentProps) {
                 createMutation.mutate(
                   {
                     code: params.code,
+                    address,
                   },
                   {
                     onSuccess: data => {

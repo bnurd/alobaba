@@ -39,5 +39,8 @@ export const getOrderHistories = async (userId: string) => {
       },
       createdAt: true,
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 };
