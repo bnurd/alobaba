@@ -22,7 +22,7 @@ export const paymentRouter = router({
 });
 
 export const paymentWebhook = async (ctx: Context) => {
-  const body = await ctx.req.json();
+  const body = (await ctx.req.parseBody()) as unknown;
   const data = body as PaymentWebhookRequest;
 
   const paymentId = data.reference_id;
@@ -31,5 +31,5 @@ export const paymentWebhook = async (ctx: Context) => {
 
   await paymentService.updatePaymentStatus(paymentId, status, paymentType);
 
-  return ctx.json({});
+  return ctx.json({ status: "ok" });
 };
