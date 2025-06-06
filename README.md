@@ -25,6 +25,11 @@ This project is a clone of the search result for "B2B Used Mobile Phones" on the
 - [ ] Product Review
 - [ ] Implement Order Tracking
 
+## Setup Payment Gateway
+1. Regiter to sandbox ipaymu: [https://sandbox.ipaymu.com/].
+2. Go to [https://sandbox.ipaymu.com/integration] page.
+3. Copy **VA** and **API key** and paste to .env file (will be explained bellow).
+
 ## Quick Start
 ### 1. Clone this project
 
