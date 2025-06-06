@@ -16,7 +16,7 @@ export default function ReactQueryProvider({ children }: { children: React.React
     createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
-          url: "http://localhost:3200/trpc",
+          url: `${import.meta.env.VITE_API_URL}/trpc`,
           transformer: SuperJSON,
           headers: () => {
             const token = cookies.get(TOKEN_KEY);

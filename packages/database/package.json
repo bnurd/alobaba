@@ -2,16 +2,17 @@
   "name": "@akptest/database",
   "version": "0.0.1",
   "scripts": {
-    "db:generate": "npx prisma generate",
-    "db:migrate": "npx prisma migrate dev --skip-generate",
-    "db:deploy": "npx prisma migrate deploy",
-    "db:reset": "npx prisma migrate reset",
-    "db:seed": "bun run seed/index.ts"
+    "db:generate": "dotenv -e ../../.env -- npx prisma generate",
+    "db:migrate": "dotenv -e ../../.env -- npx prisma migrate dev --skip-generate",
+    "db:deploy": "dotenv -e ../../.env -- with-env npx prisma migrate deploy",
+    "db:reset": "dotenv -e ../../.env -- with-env npx prisma migrate reset",
+    "db:seed": "dotenv -e ../../.env -- bun run seed/index.ts"
   },
   "private": true,
   "main": "src/index.ts",
   "devDependencies": {
     "@faker-js/faker": "^9.8.0",
+    "dotenv-cli": "^8.0.0",
     "nanoid": "^5.1.5",
     "prisma": "^6.8.2"
   },

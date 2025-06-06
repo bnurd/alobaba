@@ -1,0 +1,15 @@
+FROM oven/bun:latest
+
+WORKDIR /app
+
+# Copy root files
+COPY bun.lock package.json ./
+
+# Install only root dependencies (assumes prisma CLI is at root or hoisted)
+RUN bun install
+
+# Copy only prisma-related package (only database)
+COPY packages/database ./packages/database
+
+# Jalankan migrate langsung tanpa turbo
+CMD ["bun", "x", "prisma", "migrate", "deploy", "--schema=packages/database/prisma/schema.prisma"]

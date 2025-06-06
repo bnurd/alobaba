@@ -7,7 +7,8 @@
     },
     "build": {
       "dependsOn": ["^build", "^db:generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": ["DATABASE_URL"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*", ".env"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"]
     },
     "lint": {
@@ -20,14 +21,8 @@
       "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true,
-      "env": [
-        "DEV",
-        "JWT_SECRET_KEY",
-        "VA_NUMBER",
-        "API_KEY",
-        "BASE_URL",
-        "FRONTEND_URL"
-      ]
+      "inputs": ["$TURBO_DEFAULT$", ".env*", ".env"],
+      "env": ["DEV"]
     },
     "db:generate": {
       "cache": false
@@ -45,5 +40,15 @@
     "db:seed": {
       "cache": false
     }
-  }
+  },
+  "globalEnv": [
+    "NODE_ENV",
+    "BACKEND_URL",
+    "DATABASE_URL",
+    "JWT_SECRET_KEY",
+    "VA_NUMBER",
+    "API_KEY",
+    "FRONTEND_URL",
+    "VITE_API_URL"
+  ]
 }

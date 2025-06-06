@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: akptest
+      POSTGRES_PASSWORD: akppass
+      POSTGRES_DB: akptestdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.database
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    ports:
+      - "3200:3200"
+    depends_on:
+      - postgres
+      - migrate
+    env_file:
+      - .env
+      
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
