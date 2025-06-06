@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router";
 
 import { useUpdateCart } from "~/modules/cart/mutations/use-update-cart";
 import { useGetAllProducts } from "~/modules/products/queries/use-get-all-products";
 import ArrayForEach from "~/shared/components/array-foreach";
+import useDebounce from "~/shared/hooks/use-debounce";
 import { useAuth } from "~/shared/providers/auth-provider";
 import { useLayoutHeader } from "~/shared/providers/layout-header-provider";
 import { Button } from "~/shared/ui/button";
@@ -11,10 +13,29 @@ import { formatIDR } from "~/shared/utils/utils";
 
 export function ProductLists() {
   const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  const products = useGetAllProducts();
 
-  const { setShowFilter } = useLayoutHeader();
+  const { setShowFilter, priceFilters } = useLayoutHeader();
+  const [prices, setPrices] = useState<{ minPrice?: number; maxPrice?: number }>({
+    minPrice: undefined,
+    maxPrice: undefined,
+  });
+
+  const navigate = useNavigate();
+
+  useDebounce(
+    () => {
+      console.log(priceFilters);
+      setPrices(priceFilters);
+    },
+    500,
+    [priceFilters]
+  );
+
+  const products = useGetAllProducts({
+    minPrice: prices.minPrice,
+    maxPrice: prices.maxPrice,
+  });
+
   const updateCartMutation = useUpdateCart();
 
   return (
@@ -26,7 +47,7 @@ export function ProductLists() {
         </button>
       </div>
       <div className="mt-2 grid grid-cols-2 gap-2 md:mt-5 md:gap-4 xl:grid-cols-4">
-        {products.isLoading && (
+        {products.isLoading ? (
           <ArrayForEach length={10}>
             {idx => (
               <div key={idx} className="rounded-lg p-1 md:bg-white md:p-4 md:shadow">
@@ -37,7 +58,7 @@ export function ProductLists() {
               </div>
             )}
           </ArrayForEach>
-        )}
+        ) : null}
         {products.data?.map(product => (
           <div key={product.id} className="rounded-lg p-1 md:bg-white md:p-4 md:shadow">
             <Link to={`products/${product.slug}`}>

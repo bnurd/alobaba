@@ -3,10 +3,10 @@ import { createPortal } from "react-dom";
 import { useLayoutHeader } from "~/shared/providers/layout-header-provider";
 import { Button } from "~/shared/ui/button";
 import { TextField } from "~/shared/ui/text-field";
-import { cx } from "~/shared/utils/utils";
+import { cx, formatIDR } from "~/shared/utils/utils";
 
 export default function SidebarFilters() {
-  const { showFilter, setShowFilter } = useLayoutHeader();
+  const { showFilter, setShowFilter, priceFilters, setPriceFilters } = useLayoutHeader();
 
   return (
     <>
@@ -30,8 +30,24 @@ export default function SidebarFilters() {
         <div className="mb-5">
           <p className="mb-4 font-semibold">Price</p>
           <div className="flex flex-col gap-3">
-            <TextField size="sm" placeholder="Min" />
-            <TextField size="sm" placeholder="Max" />
+            <TextField
+              size="sm"
+              placeholder="Min"
+              value={priceFilters.minPrice ? formatIDR(priceFilters.minPrice) : ""}
+              onChange={e => {
+                const val = Number(e.target.value.replace(/\D/g, ""));
+                setPriceFilters(prev => ({ ...prev, minPrice: val }));
+              }}
+            />
+            <TextField
+              size="sm"
+              placeholder="Max"
+              value={priceFilters.maxPrice ? formatIDR(priceFilters.maxPrice) : ""}
+              onChange={e => {
+                const val = Number(e.target.value.replace(/\D/g, ""));
+                setPriceFilters(prev => ({ ...prev, maxPrice: val }));
+              }}
+            />
           </div>
         </div>
         {/* <div className="mb-5">

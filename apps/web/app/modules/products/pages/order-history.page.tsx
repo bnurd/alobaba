@@ -26,11 +26,16 @@ export default function OrderHistoryPage() {
             const payment = history.Payment[0];
 
             return (
-              <div key={history.id} className="mb-5 rounded-xl bg-white">
-                <div className="flex items-center border-b border-b-gray-200 p-4">
-                  <p className="mr-4">#{history.id}</p>
-                  <OrderStatus status={payment?.status ?? "PENDING"} />
-                  <p className="ml-auto text-sm text-gray-500">
+              <div
+                key={history.id}
+                className="mb-3 border-b border-gray-300 bg-white md:mb-5 md:rounded-xl"
+              >
+                <div className="flex flex-col gap-1 border-b border-b-gray-200 p-4 md:flex-row md:items-center md:border-b-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="mr-4 text-sm md:text-base">#{history.id}</p>
+                    <OrderStatus status={payment?.status ?? "PENDING"} />
+                  </div>
+                  <p className="text-sm text-gray-500 md:ml-auto">
                     {dayjs(history.createdAt).format("DD/MM/YYYY HH:mm:ss")}
                   </p>
                 </div>
@@ -50,7 +55,7 @@ export default function OrderHistoryPage() {
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center justify-between border-t border-t-gray-200 p-4">
+                <div className="flex items-center justify-between gap-4 border-t border-t-gray-200 p-4">
                   {payment?.status === "PENDING" && (
                     <Button
                       size="sm"
