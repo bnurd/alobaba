@@ -3,13 +3,27 @@
 This project is a clone of the search result for "B2B Used Mobile Phones" on the e-commerce site Alibaba.com, created to fulfill the AKP Technical Test.
 
 ## Techstack
-- Turborepo [https://turborepo.com/]
-- Bun [https://bun.sh/]
+- Turborepo [https://turborepo.com]
+- Bun [https://bun.sh]
 - React Router & Vite using Framework Mode [https://reactrouter.com/start/framework/installation]
-- Radix UI [http://radix-ui.com/primitives/]
-- Honojs [https://hono.dev/docs/]
+- Radix UI [http://radix-ui.com/primitives]
+- Honojs [https://hono.dev/docs]
+- TRPC [https://trpc.io]
 - Prisma [https://prisma.io]
-- Postgresql [https://www.postgresql.org/]
+- Postgresql [https://www.postgresql.org]
+- IPaymu (payment gateway) [https://ipaymu.com]
+
+## Features
+- [x] Auth (Sign In & Sign Up)
+- [x] Product Lists
+- [x] Product Search & Filter by price
+- [x] Product Detail
+- [x] Shopping Cart
+- [x] Payment with Payment Gateway
+- [x] Order History Page
+- [ ] Product Management
+- [ ] Product Review
+- [ ] Implement Order Tracking
 
 ## Quick Start
 ### 1. Clone this project
