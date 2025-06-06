@@ -1,8 +1,8 @@
 import type * as productSchema from "~/modules/products/product.schema";
 import * as productRepository from "~/modules/products/product.repository";
 
-export const getAllProducts = async () => {
-  const products = await productRepository.getAllProducts();
+export const getAllProducts = async (params: productSchema.GetAllProduct) => {
+  const products = await productRepository.getAllProducts(params);
 
   return products;
 };

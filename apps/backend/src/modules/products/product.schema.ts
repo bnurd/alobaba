@@ -48,3 +48,10 @@ export const detailProductOutputSchema = z.object({
   ),
 });
 export type DetailProductOutput = z.infer<typeof detailProductOutputSchema>;
+
+export const GetAllProduct = z.object({
+  minPrice: z.number().optional(),
+  maxPrice: z.number().optional(),
+});
+
+export type GetAllProduct = z.infer<typeof GetAllProduct>;

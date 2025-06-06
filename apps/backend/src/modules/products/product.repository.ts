@@ -1,6 +1,8 @@
 import { prisma } from "@akptest/database";
 
-export const getAllProducts = () => {
+import type * as productSchema from "~/modules/products/product.schema";
+
+export const getAllProducts = (filters: productSchema.GetAllProduct) => {
   return prisma.product.findMany({
     select: {
       id: true,
@@ -13,6 +15,12 @@ export const getAllProducts = () => {
       createdAt: true,
       updatedAt: true,
       stockQuantity: true,
+    },
+    where: {
+      price: {
+        gte: filters.minPrice ? Number(filters.minPrice) : 0,
+        lte: filters.maxPrice ? Number(filters.maxPrice) : 99999999,
+      },
     },
   });
 };
